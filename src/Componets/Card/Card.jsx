@@ -1,8 +1,26 @@
 import React from 'react';
 
-const Card = ({ product, products, setProducts }) => {
+const Card = ({ product }) => {
 
-    const {image, description, title, price } = product
+    const { image, description, title, price, id} = product
+
+
+    const addToCartBtn = (id) => {
+        let products = JSON.parse(localStorage.getItem('productId')) || [];
+        const alradyAdded = products.find(product => product === id)
+        console.log(alradyAdded);
+
+        if (alradyAdded === undefined) {
+            products = [...products, id]
+
+            localStorage.setItem('productId', JSON.stringify(products))
+        }
+        else {
+            alert('Alrady Added To Cart')
+        }
+
+    }
+
 
     return (
         <div>
@@ -18,7 +36,7 @@ const Card = ({ product, products, setProducts }) => {
                     <small className='text-black text-xs'>{description.slice(0, 70)}...</small>
                     <p className='text-black font-bold'>Price: ${price}</p>
                     <div className="card-actions">
-                        <button className="btn btn-primary">Add To Cart</button>
+                        <button onClick={() => {addToCartBtn(id)}} className="btn btn-primary">Add To Cart</button>
                     </div>
                 </div>
             </div>
